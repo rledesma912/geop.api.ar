@@ -5,17 +5,11 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
-//routes
-var routes = require('./routes/index');
-
-//modelos
-var users = require('./models/usuario');
-
 //log middleware para testearlo
 var logger = require('morgan');
 
 //aplicacion express
-var app = express(); 
+var app = express();
 
 //log de errores
 app.use(logger('combined'))
@@ -24,21 +18,31 @@ var port = process.env.PORT || 3000;
 
 //Configuración:
 // this will let us get the data from a POST
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 
-//mi router
-var router = express.Router(); 
-
-//recurso de prueba
-router.get('/', function(req, res) {
-    res.json({ message: 'Microservicio gEoPaGos corriendo ¡Saludos!' });   
+// route saludo
+var routeTest = express.Router();
+routeTest.get('/', function (req, res) {
+  res.json({
+    message: 'Microservicio gEoPaGos corriendo ¡Saludos!'
+  });
 });
 
-//el hostname de la restful
-app.use('/apigeo', router);
+// API routes
+var routesUsuarios = require('./routes/usuarios.js');
+app.use('/apigeo', [routesUsuarios, routeTest]);
+  
+//conecto con mongo
+mongoose.connect('mongodb://localhost/pagosweb', function (err, res) {
+  if (err)
+    console.log('Error en la conección con mongodb')
+  else
+    console.log('Conección con db correcta')
+})
+
 
 app.listen(port);
 console.log('API escuchando en el puerto:' + port);
-
-
