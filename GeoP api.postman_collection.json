@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "8179b702-fccf-4724-9ffc-85a2e6ae0df6",
+		"name": "GeoP api",
+		"description": "endpoints del ejercicio de GeoP\t",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Saludo Api GeoP",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\": \"Cosme Fulanito\",\n\t\"login\": \"cfulanito\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/apigeo/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"apigeo",
+						""
+					]
+				},
+				"description": "Response harcoding para chequear api"
+			},
+			"response": []
+		},
+		{
+			"name": "Usuario Alta",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"Pargento@gmail.com\",\n\t\"nombre\": \"Pepe\",\n\t\"apellido\": \"Argento\",\n\t\"direccion\": \"galicia 3422 dto 4\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/apigeo/usuario",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"apigeo",
+						"usuario"
+					]
+				},
+				"description": "Post para agregar un usuario en el mongodb"
+			},
+			"response": []
+		},
+		{
+			"name": "Usuarios Obtener todos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"cfulanito@gmail.com\",\n\t\"nombre\": \"cosme\",\n\t\"apellido\": \"fulanito\",\n\t\"direccion\": \"Peru 1000\",\n\t\"aprobado\": false,\n\t\"activo\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/apigeo/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"apigeo",
+						"usuarios"
+					]
+				},
+				"description": "Lista de usuarios en la collecion.\nTodos."
+			},
+			"response": []
+		},
+		{
+			"name": "Usuario Modificar",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"vmodesta@gmail.com\",\n    \"nombre\": \"valeria\",\n    \"apellido\": \"Modestini (modificado)\",\n    \"direccion\": \"san martin 12\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/apigeo/usuario/5afe3e9afd9e7d73214db0f5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"apigeo",
+						"usuario",
+						"5afe3e9afd9e7d73214db0f5"
+					]
+				},
+				"description": "PUT con id demongodb"
+			},
+			"response": []
+		},
+		{
+			"name": "Usuario Aprobar",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"vmodesta@gmail.com\",\n    \"nombre\": \"valeria\",\n    \"apellido\": \"Modestini (modificado)\",\n    \"direccion\": \"san martin 12\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/apigeo/usuario/aprobar/pargento@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"apigeo",
+						"usuario",
+						"aprobar",
+						"pargento@gmail.com"
+					]
+				},
+				"description": "PUT para cambiar el estado del usuario compra/venta"
+			},
+			"response": []
+		},
+		{
+			"name": "Usuario Deshabilitar",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"vmodesta@gmail.com\",\n    \"nombre\": \"valeria\",\n    \"apellido\": \"Modestini (modificado)\",\n    \"direccion\": \"san martin 12\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/apigeo/usuario/desactivar/5afe51d49ca2c16ee2bbc2d4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"apigeo",
+						"usuario",
+						"desactivar",
+						"5afe51d49ca2c16ee2bbc2d4"
+					]
+				},
+				"description": "PUT para borrar / inahilitar un usuario."
+			},
+			"response": []
+		},
+		{
+			"name": "Venta de usuario Alta",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user_email\": \"PARGENTO@GMAIL.COM\",\n\t\"amount\" : 123.45\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/apigeo/usuario/venta",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"apigeo",
+						"usuario",
+						"venta"
+					]
+				},
+				"description": "Post para agregar una venta de usuario"
+			},
+			"response": []
+		},
+		{
+			"name": "Usuario Verificar compra",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"vmodesta@gmail.com\",\n    \"nombre\": \"valeria\",\n    \"apellido\": \"Modestini (modificado)\",\n    \"direccion\": \"san martin 12\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/apigeo/usuario/check/pargento@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"apigeo",
+						"usuario",
+						"check",
+						"pargento@gmail.com"
+					]
+				},
+				"description": "Get -> ve si puede comprar"
+			},
+			"response": []
+		},
+		{
+			"name": "VEnta anular",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"5b006c2ffb8e4676cedc9bcb\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/apigeo/venta/anular",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"apigeo",
+						"venta",
+						"anular"
+					]
+				},
+				"description": "CAmbiar el flag de una venta a anulada por el uuid"
+			},
+			"response": []
+		}
+	]
+}

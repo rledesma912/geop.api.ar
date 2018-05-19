@@ -1,3 +1,4 @@
+//TODO: implementar el trapeo de excepciones que está incompleto.
 var UsuarioModel = require('../modelos/usuario');
 
 exports.UsuariosListarTodos = function (req, res) {
@@ -30,20 +31,21 @@ exports.UsuarioAgregar = function (req, res) {
   });
 
   usunuevo.save(function (err) {
-    if (!err)
+    if (!err) {
       console.log('Usuario guardado')
-    else
+      res.send(usunuevo);
+    } else {
       console.log('Error al guardar usuario + ' + err)
+      res.send(err)
+    }
+
   });
-
-  res.send(usunuevo);
-
 };
 
 exports.UsuarioAprobar = function (req, res) {
 
   var query = {
-    email: req.params.email
+    'email': req.params.email
   };
 
   UsuarioModel.findOneAndUpdate(query, {
@@ -51,15 +53,21 @@ exports.UsuarioAprobar = function (req, res) {
         aprobado: true
       }
     }, {
-      upsert: true
+      upsert: false
     },
     function (err, doc) {
       if (err)
         res.send(err);
 
-      return res.json({
-        message: '¡Usuario aprobado para comprar/pagar!'
-      });
+      if (doc)
+        res.send({
+          message: '¡Usuario aprobado para comprar/pagar!'
+        });
+      else
+        res.send({
+          message: '¡Usuario no encontrado!'
+        });
+
     });
 
 }
@@ -77,37 +85,84 @@ exports.UsuarioModificar = function (req, res) {
         direccion: req.body.direccion
       }
     }, {
-      upsert: true
+      upsert: false
     },
     function (err, doc) {
       if (err)
         res.send(err);
 
-      return res.json({
-        message: '¡Usuario actualizado!'
-      });
+      if (doc)
+        res.send({
+          message: '¡Usuario actualizado!'
+        });
     });
 
 }
 
+//TODO: examinar si ya estaba deshabilitado para informar.
 exports.UsuarioDeshabilitar = function (req, res) {
 
   UsuarioModel.findOneAndUpdate({
-      id: req.params.id
+      _id: req.params.id
     }, {
       $set: {
         activo: false
       }
     }, {
-      upsert: true
+      upsert: false
     },
     function (err, doc) {
       if (err)
         res.send(err);
 
-      return res.json({
-        message: '¡Usuario deshabilitado!'
-      });
+      if (doc)
+        res.send({
+          message: '¡Usuario deshabilitado!'
+        });
+      else
+        res.send({
+          message: '¡No se encuentra el registro!'
+        });
     });
 
 }
+
+//Chequear activo y habilitado
+exports.UsuarioPuedeComprar = function (req, res) {
+  var query = {
+    'email': req.params.email
+  };
+
+  UsuarioModel.findOne(query, function (err, unusuario) {
+    if (!err) {
+      if (unusuario != null) {
+        if (unusuario.activo & unusuario.aprobado)
+          res.send(`Puede comprar`)
+        else
+          res.send(`NO puede comprar`)
+      } else
+        res.send(`NO se encontró el usuario ${ req.params.email}`)
+    } else
+      console.log(`Error al buscar usuario por el email: ${err}`);
+
+  })
+};
+
+//Chequear activo y habilitado
+exports.PuedeComprar = function (email) {
+
+  UsuarioModel.findOne({
+    'email': email
+  }, function (err, unusuario) {
+    let mflag = false;
+
+    if (!err)
+      if (unusuario != null)
+        if (unusuario.activo & unusuario.aprobado)
+          mflag = true;
+
+    console.log('nflag: ' + mflag);
+    return mflag;
+  })
+
+};
